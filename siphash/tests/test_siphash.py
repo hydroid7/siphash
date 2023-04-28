@@ -52,5 +52,5 @@ async def dut_reset_ok(dut):
 async def busy_high_while_calculation(dut):
     cocotb.start_soon(clock_gen(dut.clk))
     await reset(dut.rst_n)
-    # assert True == False
+    assert True == False
 
