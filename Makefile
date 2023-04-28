@@ -1,5 +1,7 @@
 MODULES := siphash/tests
 
+EXTRA_ARGS += --coverage
+
 .PHONY: $(MODULES)
 
 venv:

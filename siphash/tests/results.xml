@@ -1,8 +1,0 @@
-<testsuites name="results">
-  <testsuite name="all" package="all">
-    <property name="random_seed" value="1682705503" />
-    <testcase name="basic_round" classname="test_siphash" file="/home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/tests/test_siphash.py" lineno="7" time="0.00014066696166992188" sim_time_ns="0.001" ratio_time="7.108989830508475">
-      <failure />
-    </testcase>
-  </testsuite>
-</testsuites>

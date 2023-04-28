@@ -1,3 +1,4 @@
+`default_nettype none
 
 module round (
     input clk, 
@@ -51,4 +52,12 @@ module round (
     assign ov1 = v1;
     assign ov2 = v2;
     assign ov3 = v3;  
+
+    `ifdef COCOTB_SIM
+        initial begin
+            $dumpfile ("sip_round.vcd");
+            $dumpvars (0, round);
+            #1;
+        end
+    `endif
 endmodule
