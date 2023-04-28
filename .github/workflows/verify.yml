@@ -3,7 +3,7 @@ name: Verify
 on: [push]
 
 jobs:
-  build-linux:
+  test-hdl:
     runs-on: ubuntu-latest
 
     steps:
