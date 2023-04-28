@@ -20,3 +20,6 @@ clean:
 .PHONY: test
 test:
 	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST);)
+
+regression:
+	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST) regression;)

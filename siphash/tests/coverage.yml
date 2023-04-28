@@ -1,0 +1,15 @@
+top:
+  cover_percentage: 0.0
+  coverage: 0
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverItem'>
+top.c:
+  at_least: 1
+  bins:_hits:
+    false: 0
+    true: 0
+  cover_percentage: 0.0
+  coverage: 0
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
