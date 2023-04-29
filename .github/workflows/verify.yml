@@ -32,5 +32,5 @@ jobs:
 
     - name: Check FAIL condition
       run: |
-        ./github/workflows/verify.yml
+        sh -c .github/workflows/check_test_result.sh
 
