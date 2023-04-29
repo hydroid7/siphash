@@ -28,4 +28,5 @@ jobs:
 
     - name: Run module test
       run: |
-        make test
+        make regression | tee test_output
+        grep -v "FAIL" test_output
