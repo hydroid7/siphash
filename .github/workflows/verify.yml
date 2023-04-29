@@ -29,4 +29,8 @@ jobs:
     - name: Run module test
       run: |
         make regression | tee test_output
-        grep -v "FAIL" test_output
+
+    - name: Check FAIL condition
+      run: |
+        ./github/workflows/verify.yml
+
