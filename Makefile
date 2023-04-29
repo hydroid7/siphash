@@ -23,3 +23,6 @@ test:
 
 regression:
 	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST) regression;)
+
+lint:
+	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST) lint;)
