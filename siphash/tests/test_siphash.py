@@ -3,8 +3,9 @@ from cocotb.triggers import RisingEdge, Timer
 from cocotb_coverage import crv
 from cocotb_coverage.coverage import *
 from cocotb import logging
+from cocotb.binary import BinaryValue
 
-from test_util import clock_gen, reset
+from test_util import clock_gen, reset, set_input
 import random
 import sys
 from model import SipHash
@@ -41,16 +42,49 @@ async def dut_reset_ok(dut):
     assert int(dut.result.value) == 0
     assert dut.done.value == 0
 
-    log.error('Test succesful.')
+    # log.error('Test succesful.')
     # cocotb.fork(Driver(dut.a, dut.b, 500))
     # await cocotb.fork(Driver(dut.a, dut.b, 500))
     # coverage_db.report_coverage(log.info, bins=True)
     # coverage_db.export_to_yaml(filename="coverage.yml")
     
 
+# @cocotb.test()
+# async def busy_high_while_calculation(dut):
+#     cocotb.start_soon(clock_gen(dut.clk))
+#     await reset(dut.rst_n)
+#     assert True == False
+
+
 @cocotb.test()
-async def busy_high_while_calculation(dut):
+async def initialises_start_vector_correctly(dut):
     cocotb.start_soon(clock_gen(dut.clk))
     await reset(dut.rst_n)
-    assert True == False
+    await RisingEdge(dut.clk)
+    key = [
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    ]
+    await set_input(dut, key, None)
+    await RisingEdge(dut.clk)
+    assert dut.key[0].value == 0, 'Key is not set.'
+    await Timer(20, 'ns')
+    dut.start.value = 1
+    await Timer(5, 'ns')
+    dut.start.value = 0
+    await Timer(5, 'ns')
 
+    ivs = [
+        0x736f6d6570736575,
+        0x646f72616e646f6d,
+        0x6c7967656e657261,
+        0x7465646279746573
+    ]
+    for i in range(0, 3):
+        assert dut.v[i].value == ivs[i], f'Unexpected: IV is {dut.v[i].value}'

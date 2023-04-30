@@ -15,14 +15,14 @@ $(MODULES):
 
 .PHONY: clean
 clean:
-	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST) clean;)
+	$(foreach MOD, $(MODULES), $(MAKE) -C $(MOD) clean;)
 
 .PHONY: test
 test:
-	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST);)
+	$(foreach MOD, $(MODULES), $(MAKE) -C $(MOD);)
 
 regression:
-	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST) regression;)
+	$(foreach MOD, $(MODULES), $(MAKE) -C $(MOD) regression;)
 
 lint:
-	$(foreach TEST, $(MODULES), $(MAKE) -C $(TEST) lint;)
+	$(foreach MOD, $(MODULES), $(MAKE) -C $(MOD) lint;)

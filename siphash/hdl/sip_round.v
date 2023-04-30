@@ -1,6 +1,6 @@
 `default_nettype none
 
-module round (
+module sip_round (
     input clk, 
     input rst_n, 
     input [63:0] iv0, iv1, iv2, iv3, 
