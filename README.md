@@ -13,9 +13,9 @@ So for making the environment run:
 make pyenv
 ```
 
-## Tests
+## Tests & Lints
 
-You can run tests with `make test`.
+You can run tests with `make test` and code linting with Verilator `make lint`. To qualify you code for the coding standards of this repository, your code should pass both checks.
 
 ## View Waveforms
 
