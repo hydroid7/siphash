@@ -34,6 +34,15 @@ generate
     end
 endgenerate
 
+sip_round first_round (
+    .clk(clk),
+    .rst_n(rst_n),
+    .iv0(iv[0]),
+    .iv1(iv[1]),
+    .iv2(iv[2]),
+    .iv3(iv[3])
+);
+
 always @(posedge clk) begin
     if(~rst_n) begin
         done <= 0;

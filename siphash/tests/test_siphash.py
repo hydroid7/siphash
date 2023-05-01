@@ -9,7 +9,7 @@ from test_util import clock_gen, reset, set_input
 import random
 import sys
 from model import SipHash
-
+from test_configurations import keys
 # class rand_input(crv.Randomized):
 #     def __init__(self):
 #         crv.Randomized.__init__(self)
@@ -61,16 +61,7 @@ async def initialises_start_vector_correctly(dut):
     cocotb.start_soon(clock_gen(dut.clk))
     await reset(dut.rst_n)
     await RisingEdge(dut.clk)
-    key = [
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
-    ]
+    key = keys['simple']
     await set_input(dut, key, None)
     await RisingEdge(dut.clk)
     assert dut.key[0].value == 0, 'Key is not set.'
@@ -88,3 +79,14 @@ async def initialises_start_vector_correctly(dut):
     ]
     for i in range(0, 3):
         assert dut.v[i].value == ivs[i], f'Unexpected: IV is {dut.v[i].value}'
+
+@cocotb.test()
+async def round_output_correct(dut):
+    cocotb.start_soon(clock_gen(dut.clk))
+    await reset(dut.rst_n)
+    await RisingEdge(dut.clk)
+    await set_input(dut, keys['simple'], None)
+    # print(dut)
+    # dut.first_half.iv0.value = 0
+    await Timer(5, 'ns')
+    assert False == True, 'not implemented yet'
