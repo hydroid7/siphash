@@ -1,5 +1,5 @@
 module sip_half_round #(
-    parameter V1_SHIFT = 17, 
+    parameter V1_SHIFT = 13, 
     parameter V3_SHIFT = 16
 ) (
     input wire clk,

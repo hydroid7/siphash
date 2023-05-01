@@ -7,59 +7,42 @@ module sip_round (
     output [63:0] ov0, ov1, ov2, ov3
 );
 
-    reg  [63:0] add_0_res, add_1_res, add_2_res, add_3_res;
-    reg  [63:0] v0_tmp, v1_tmp, v2_tmp, v3_tmp;
-    reg  [63:0] v0, v1, v2, v3;
-    reg  [63:0] i0, i1, i2, i3;
+reg  [63:0] v0, v1, v2, v3;
+reg  [63:0] i0, i1, i2, i3;
 
-    always @(posedge clk)
-    begin
-        if (~rst_n)
-        begin
-            i0 <= 0;
-            i1 <= 0;
-            i2 <= 0;
-            i3 <= 0;
-        end else
-        begin
-            i0 <= iv0;
-            i1 <= iv1;
-            i2 <= iv2;
-            i3 <= iv3;
-        end
-    end
+sip_half_round first_half (
+    .clk(clk),
+    .rst_n(rst_n),
 
-    always @*
-    begin
-        add_0_res = i0 + i1;
-        add_1_res = i2 + i3;
+    .v0_in(iv0),
+    .v1_in(iv1),
+    .v2_in(iv2),
+    .v3_in(iv3),
 
-        v0_tmp = {add_0_res[31:0], add_0_res[63:32]};
-        v1_tmp = {i1[50:0], i1[63:51]} ^ add_0_res;
-        v2_tmp = add_1_res;
-        v3_tmp = {i3[47:0], i3[63:48]} ^ add_1_res;    
+    .v0_out(v2),
+    .v1_out(v1),
+    .v2_out(v0),
+    .v3_out(v3)
+);
 
-        add_2_res = v1_tmp + v2_tmp;
-        add_3_res = v0_tmp + v3_tmp;
+sip_half_round #(
+    .V1_SHIFT(17),
+    .V3_SHIFT(21)
+) second_half (
+    .clk(clk),
+    .rst_n(rst_n),
 
-        v0 = add_3_res;
-        v1 = {v1_tmp[46:0], v1_tmp[63:47]} ^ add_2_res;
-        v2 = {add_2_res[31:0], add_2_res[63:32]};
-        v3 = {v3_tmp[42:0], v3_tmp[63:43]} ^ add_3_res;         
-    end
+    .v0_in(v0),
+    .v1_in(v1),
+    .v2_in(v2),
+    .v3_in(v3),
 
-    assign ov0 = v0;
-    assign ov1 = v1;
-    assign ov2 = v2;
-    assign ov3 = v3;  
+    .v0_out(ov2),
+    .v1_out(ov1),
+    .v2_out(ov0),
+    .v3_out(ov3)
+);
 
-    `ifdef COCOTB_SIM
-        initial begin
-            $dumpfile ("sip_round.vcd");
-            $dumpvars (0, round);
-            #1;
-        end
-    `endif
 endmodule
 
 
