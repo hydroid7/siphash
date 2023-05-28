@@ -18,7 +18,22 @@ async def reset(rst_n):
     await Timer(10, 'ns')
     rst_n.value = 1
     
-async def set_input(dut, key, nonce):
+async def set_key(dut, key):
     await RisingEdge(dut.clk)
-    dut.key.value = BinaryValue(''.join(["{0:b}".format(x) for x in key]))
-    dut.nonce.value = BinaryValue(nonce)
+    dut.cmd.value = BinaryValue(value='0000' + '{:b}'.format(key[0]), n_bits=68)
+    dut.we.value = 1
+    await RisingEdge(dut.clk)
+    dut.we.value = 0
+    await RisingEdge(dut.clk)
+    print(f'{key[0]:b}')
+    print(f'{key[0]:x}')
+    dut.cmd.value = BinaryValue('0001' + '{:b}'.format(key[1]), n_bits=68)
+    dut.we.value = 1
+    await RisingEdge(dut.clk)
+    dut.we.value = 0
+
+async def command(dut, cmd, data):
+    dut.cmd.value = BinaryValue(cmd + data, n_bits=68)
+    dut.we.value = 1
+    await RisingEdge(dut.clk)
+    dut.we.value = 0

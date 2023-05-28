@@ -1,30 +1,15 @@
 from cocotb.triggers import RisingEdge
 
-class TestConfiguration:
-    def __init__(self, key, nonce):
-        self.key = key
-        self.nonce = nonce
-
-    async def set_values(self, dut):
-        await RisingEdge(dut.clk)
-        dut.key = self.key
-        dut.nonce = self.nonce
-
-# TODO generate test configurations here:
-# cases = [
-#     TestConfiguration()
-# ]
-
 keys = {
     'simple': [
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
+        0x0706050403020100, 0x0f0e0d0c0b0a0908
+    ],
+    'zeros': [
+        0x0000000000000000, 0x0000000000000000
     ]
 }
-    
+
+plaintexts = {
+    'first': ["{:>08b}".format(x) for x in range(0, 64)]
+}
+

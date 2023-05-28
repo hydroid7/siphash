@@ -1,0 +1,66 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Thu May 25 08:52:42 2023
+[*]
+[dumpfile] "/home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/tests/siphash.vcd"
+[dumpfile_mtime] "Thu May 25 08:52:19 2023"
+[dumpfile_size] 51107
+[savefile] "/home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/tests/savefile.gtkw"
+[timestart] 109450
+[size] 1278 1019
+[pos] -1 -1
+*-13.572105 129002 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] siphash.
+[treeopen] siphash.round.
+[sst_width] 208
+[signals_width] 273
+[sst_expanded] 1
+[sst_vpaned_height] 192
+@28
+siphash.clk
+siphash.rst_n
+siphash.we
+siphash.busy
+@22
+siphash.cmd[66:0]
+@2022
+^1 /home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/opcodes.txt
+siphash.opcode[2:0]
+@22
+siphash.data[63:0]
+@2022
+^2 /home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/states.txt
+siphash.state[3:0]
+@200
+-
+@22
+siphash.\v[0][63:0]
+siphash.\v[1][63:0]
+siphash.\v[2][63:0]
+siphash.\v[3][63:0]
+@200
+-Round Counter
+@28
+siphash.round_counter.is_running
+siphash.round_counter.trigger
+@22
+siphash.counter_round[3:0]
+@200
+-SIP Round
+@28
+siphash.round.clk
+@22
+[color] 6
+siphash.round.iv0[63:0]
+[color] 6
+siphash.round.iv1[63:0]
+[color] 6
+siphash.round.iv2[63:0]
+[color] 6
+siphash.round.iv3[63:0]
+siphash.round.ov0[63:0]
+siphash.round.ov1[63:0]
+siphash.round.ov2[63:0]
+siphash.round.ov3[63:0]
+[pattern_trace] 1
+[pattern_trace] 0
