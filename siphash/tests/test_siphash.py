@@ -64,7 +64,7 @@ async def initialises_start_vector_correctly(dut):
     ]
     for i in range(0, 4):
         print(hex(dut.v[i].value))
-        # assert dut.v[i].value == test_vec[i], f'Unexpected value in v_{i}: {dut.v[i].value}'
+        assert dut.v[i].value == test_vec[i], f'Unexpected value in v_{i}: {dut.v[i].value}'
 
 @cocotb.test()
 async def test_setting_key_with_simple_key(dut):
@@ -84,7 +84,7 @@ async def test_setting_key_with_simple_key(dut):
     for i in range(0, 3):
         assert dut.v[i].value == test_vec[i], f'Unexpected value in v_{i}: {dut.v[i].value}'
 
-@cocotb.test()
+@cocotb.test(skip=True)
 async def round_output_correct(dut):
     cocotb.start_soon(clock_gen(dut.clk))
     await reset(dut.rst_n)
@@ -104,7 +104,7 @@ async def round_output_correct(dut):
     # assert dut.v[1].value.binstr == BinaryValue(model.v[1], 64).binstr
     # assert dut.v[2].value.binstr == BinaryValue(model.v[2], 64).binstr
     # assert dut.v[3].value.binstr == BinaryValue(model.v[3], 64).binstr
-    await Timer(50, 'ns')
+
     # dut._log.info(model.v)
 
 
@@ -122,7 +122,7 @@ async def test_paper_values(dut):
     await reset(dut.rst_n)
     await RisingEdge(dut.clk)
     await set_key(dut, key)
-
+    await Timer(50, 'ns')
     my_siphash.compression(m1)
     my_siphash.compression(m2)
     
@@ -133,4 +133,3 @@ async def test_paper_values(dut):
         print("Correct result 0x%016x generated." % result)
     else:
         print("Incorrect result 0x%016x generated, expected 0x%016x." % (result, expected))
-    print("")

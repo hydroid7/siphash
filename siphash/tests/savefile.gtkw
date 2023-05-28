@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Thu May 25 08:52:42 2023
+[*] Sun May 28 10:18:49 2023
 [*]
 [dumpfile] "/home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/tests/siphash.vcd"
-[dumpfile_mtime] "Thu May 25 08:52:19 2023"
-[dumpfile_size] 51107
+[dumpfile_mtime] "Sun May 28 10:18:08 2023"
+[dumpfile_size] 5329
 [savefile] "/home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/tests/savefile.gtkw"
-[timestart] 109450
+[timestart] 44850
 [size] 1278 1019
 [pos] -1 -1
-*-13.572105 129002 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-13.572105 64820 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] siphash.
 [treeopen] siphash.round.
 [sst_width] 208
@@ -22,10 +22,14 @@ siphash.rst_n
 siphash.we
 siphash.busy
 @22
-siphash.cmd[66:0]
+siphash.data[63:0]
+@28
+siphash.clk
+siphash.rst_n
+siphash.busy
 @2022
 ^1 /home/meszlenyilorant/masterarbeit/siphash-hdl/siphash/opcodes.txt
-siphash.opcode[2:0]
+siphash.opcode[3:0]
 @22
 siphash.data[63:0]
 @2022
@@ -47,8 +51,6 @@ siphash.round_counter.trigger
 siphash.counter_round[3:0]
 @200
 -SIP Round
-@28
-siphash.round.clk
 @22
 [color] 6
 siphash.round.iv0[63:0]

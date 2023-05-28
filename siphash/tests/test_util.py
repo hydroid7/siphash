@@ -20,14 +20,14 @@ async def reset(rst_n):
     
 async def set_key(dut, key):
     await RisingEdge(dut.clk)
-    dut.cmd.value = BinaryValue(value='0000' + '{:b}'.format(key[0]), n_bits=68)
+    dut.cmd.value = BinaryValue(value='0000' + '{:064b}'.format(key[0]), n_bits=68)
     dut.we.value = 1
     await RisingEdge(dut.clk)
     dut.we.value = 0
     await RisingEdge(dut.clk)
     print(f'{key[0]:b}')
     print(f'{key[0]:x}')
-    dut.cmd.value = BinaryValue('0001' + '{:b}'.format(key[1]), n_bits=68)
+    dut.cmd.value = BinaryValue('0001' + '{:064b}'.format(key[1]), n_bits=68)
     dut.we.value = 1
     await RisingEdge(dut.clk)
     dut.we.value = 0

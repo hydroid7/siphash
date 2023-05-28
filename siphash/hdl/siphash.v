@@ -6,7 +6,7 @@ module siphash #(
     input wire clk,
     input wire rst_n,
     input wire we,
-    input wire [67:0] cmd,
+    input wire [64+4-1:0] cmd,
 
     output reg busy,
     output reg [63:0] result
@@ -76,13 +76,11 @@ always @(posedge clk) begin
     end else if(we && !busy) begin
         // Read key first part
         if (opcode == 'b0000) begin
-            $display("Data h: %h, IV: %h, v[0]: %h", data, initial_vector[0], data ^ initial_vector[0]);
             v[0] <= data ^ initial_vector[0];
             v[2] <= data ^ initial_vector[2];
             busy <= 'b0;
         // Read key second part
         end else if (opcode == 'b0001) begin
-            $display("Data l: %h", data);
             v[1] <= data ^ initial_vector[1];
             v[3] <= data ^ initial_vector[3];
             busy <= 'b0;
@@ -135,10 +133,6 @@ end
         $dumpvars(0, v[1]);
         $dumpvars(0, v[2]);
         $dumpvars(0, v[3]);
-        $dumpvars(0, siphash.initial_vector[0]);
-        $dumpvars(0, siphash.initial_vector[1]);
-        $dumpvars(0, siphash.initial_vector[2]);
-        $dumpvars(0, siphash.initial_vector[3]);
         #1;
     end
 `endif
