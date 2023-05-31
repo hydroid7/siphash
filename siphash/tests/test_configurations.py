@@ -1,7 +1,7 @@
 from cocotb.triggers import RisingEdge
 
 keys = {
-    'simple': [
+    'paper': [
         0x0706050403020100, 0x0f0e0d0c0b0a0908
     ],
     'zeros': [

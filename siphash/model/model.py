@@ -119,6 +119,8 @@ class SipHash():
             print("State after compression:")
             self._print_state()
 
+    def state(self):
+        return self.v
 
     #---------------------------------------------------------------
     # finalization()
@@ -162,6 +164,7 @@ class SipHash():
         self.v[1] = self.v[1] ^ self.v[0]
         self.v[3] = self.v[3] ^self.v[2]
         self.v[0] = ((self.v[0] << 32) & MAX64) | (self.v[0] >> 32 & MAX64)
+        
         self.v[2] = (self.v[2] + self.v[1]) & MAX64
         self.v[0] = (self.v[0] + self.v[3]) & MAX64
         self.v[1] = ((self.v[1] << 17) % MAX64) | (self.v[1] >> 47 % MAX64)
@@ -169,7 +172,6 @@ class SipHash():
         self.v[1] = self.v[1] ^ self.v[2]
         self.v[3] = self.v[3] ^ self.v[0]
         self.v[2] = ((self.v[2] << 32) % MAX64) | (self.v[2] >> 32 % MAX64)
-
 
     #---------------------------------------------------------------
     # _print_state()

@@ -16,7 +16,7 @@ module siphash #(
 `define ROUND_END   'b0010
 `define ROUND_ROUND 'b0011
 
-counter #(.INITIAL_VAL(D)) round_counter (
+counter #(.INITIAL_VAL(C)) round_counter (
     .clk(clk),
     .rst_n(rst_n),
     .trigger(counter_trigger),
@@ -107,14 +107,13 @@ always @(posedge clk) begin
         end else if (state == `ROUND_ROUND) begin
             if(counter_round == 1)
                 state <= `ROUND_END;
-            $display("State round %d", counter_round);
             iv[0] <= ov[0];
             iv[1] <= ov[1];
             iv[2] <= ov[2];
             iv[3] <= ov[3];
             // TODO do here the round
         end else if (state == `ROUND_END) begin
-            v[0] <= ov[0];
+            v[0] <= ov[0] ^ data;
             v[1] <= ov[1];
             v[2] <= ov[2];
             v[3] <= ov[3];
