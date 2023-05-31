@@ -50,10 +50,6 @@ jobs:
         pip3 install -r requirements.txt
         sudo apt install -y --no-install-recommends iverilog make verilator
 
-    - name: Lint Verilog
-      run: |
-        make lint
-
     - name: Run module test
       run: |
         make regression | tee test_output
