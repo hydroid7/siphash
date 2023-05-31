@@ -5,7 +5,7 @@ module sip_round (
     output [63:0] ov0, ov1, ov2, ov3
 );
 
-    wire [63:0] v0, v1, v2, v3;
+    // wire [63:0] v0, v1, v2, v3;
 
 
     wire [63:0] add_0_res = iv0 + iv1;

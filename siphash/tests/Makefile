@@ -5,7 +5,6 @@ export PYTHONPATH := $(PWD)/../model:$(PYTHONPATH)
 VERILOG_SOURCES = \
 	$(PWD)/../hdl/sip_round.v \
 	$(PWD)/../hdl/siphash.v \
-	$(PWD)/../hdl/sip_half_round.v \
 	$(PWD)/../hdl/counter.v
 
 TOPLEVEL := siphash
