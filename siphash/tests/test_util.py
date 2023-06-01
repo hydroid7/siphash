@@ -1,4 +1,4 @@
-from cocotb.triggers import Timer, RisingEdge
+from cocotb.triggers import Timer, RisingEdge, FallingEdge
 from cocotb.binary import BinaryValue
 
 async def _command(dut, cmd, data):
@@ -35,9 +35,11 @@ async def set_key(dut, key):
 
 async def compress(dut, data):
     await _command(dut, '0010', data)
+    await FallingEdge(dut.busy)
 
 async def finalize(dut):
     await _command(dut, '0011', 0x0)
+    await FallingEdge(dut.busy)
 
 def assert_state(dut, internal_state):
     if len(internal_state) != 4:
@@ -46,4 +48,7 @@ def assert_state(dut, internal_state):
         assert dut.v[i].value == internal_state[i], f'Unexpected value in v_{i} ≠ expected.'
 
 def assert_result(dut, expected):
-    assert dut.result.value == '{:064b}'.format(expected)
+    print('{:08x}'.format(expected))
+    print('{:08x}'.format(int(dut.result.value)))
+    print('Assertion finished.')
+    assert f'{dut.result.value}' == '{:064b}'.format(expected)

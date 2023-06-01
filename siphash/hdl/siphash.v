@@ -12,15 +12,25 @@ module siphash #(
     output reg [63:0] result
 );
 
-`define ROUND_START 'b0001
-`define ROUND_END   'b0010
-`define ROUND_ROUND 'b0011
+`define ROUND_START    'b0001
+`define ROUND_END      'b0010
+`define ROUND_ROUND    'b0011
+`define FINALIZE_START 'b0100
+`define FINALIZE_ROUND 'b0101
+`define FINALIZE_XOR   'b0110
 
 counter #(.INITIAL_VAL(C)) round_counter (
     .clk(clk),
     .rst_n(rst_n),
     .trigger(counter_trigger),
     .out(counter_round)
+);
+
+counter #(.INITIAL_VAL(D)) final_counter (
+    .clk(clk),
+    .rst_n(rst_n),
+    .trigger(finalize_trigger),
+    .out(final_round)
 );
 
 sip_round round (
@@ -37,14 +47,10 @@ sip_round round (
     .ov3(ov[3])
 );
 
-// counter #(.INITIAL_VAL(D)) final_counter (
-//     .clk(clk),
-//     .rst_n(rst_n),
-//     .out(final_round)
-// );
-
 reg [3:0] counter_round;
+reg [3:0] final_round;
 reg counter_trigger;
+reg finalize_trigger;
 
 wire [3:0] opcode = cmd[67:64];
 wire [63:0] data = cmd[63:0];
@@ -94,6 +100,9 @@ always @(posedge clk) begin
         // Finalize
         end else if (opcode == 'b0011) begin
             v[2] <= v[2] ^ 'hff;
+            finalize_trigger <= 'b1;
+            busy <= 'b1;
+            state <= `FINALIZE_START;
         end else
             $display("Invalid opcode %b", opcode);
     end else begin
@@ -111,7 +120,6 @@ always @(posedge clk) begin
             iv[1] <= ov[1];
             iv[2] <= ov[2];
             iv[3] <= ov[3];
-            // TODO do here the round
         end else if (state == `ROUND_END) begin
             v[0] <= ov[0] ^ data;
             v[1] <= ov[1];
@@ -119,7 +127,24 @@ always @(posedge clk) begin
             v[3] <= ov[3];
             busy <= 'b0;
             state <= 0;
-            // TODO update state 
+        end else if (state == `FINALIZE_START) begin
+            finalize_trigger <= 'b0;
+            state <= `FINALIZE_ROUND;
+            iv[0] <= v[0];
+            iv[1] <= v[1];
+            iv[2] <= v[2];
+            iv[3] <= v[3];
+        end else if (state == `FINALIZE_ROUND) begin
+            if(final_round == 1)
+                state <= `FINALIZE_XOR;
+            iv[0] <= ov[0];
+            iv[1] <= ov[1];
+            iv[2] <= ov[2];
+            iv[3] <= ov[3];
+        end else if (state == `FINALIZE_XOR) begin
+            result <= (ov[0] ^ ov[1] ^ ov[2] ^ ov[3]);
+            state <= 'b0;
+            busy <= 'b0;
         end
     end
 end

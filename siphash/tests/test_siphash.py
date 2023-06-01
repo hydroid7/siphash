@@ -49,7 +49,7 @@ async def test_setting_key_with_simple_key(dut):
     ]
     assert_state(dut, test_vec)
 
-@cocotb.test(skip=True)
+@cocotb.test()
 async def test_paper_values(dut):
     """This test checkst the generated values with the ones from the SipHash paper."""
     key = [0x0706050403020100, 0x0f0e0d0c0b0a0908]
@@ -69,7 +69,8 @@ async def test_paper_values(dut):
     await compress(dut, m2)
     result = my_siphash.finalization()
     await finalize(dut)
-    assert_result(dut, expected)
+    assert_result(dut, result)
+    await Timer(10, 'ns')
     assert result == expected
     if result == expected:
         print("Correct result 0x%016x generated." % result)
@@ -93,5 +94,30 @@ async def round_output_correct(dut):
         m = getrandbits(64)
         await compress(dut, m)
         h.compression(m)
-        await FallingEdge(dut.busy)
         assert_state(dut, h.state())
+
+
+@cocotb.test()
+async def test_hash(dut):
+    """Checks the siphash module against the model 1000 times."""
+    from random import getrandbits
+    key = [0x0706050403020100, 0x0f0e0d0c0b0a0908]
+    h = SipHash()
+    h.set_key(key)
+
+    cocotb.start_soon(clock_gen(dut.clk))
+    await reset(dut.rst_n)
+    await RisingEdge(dut.clk)
+    await set_key(dut, key)
+
+    for i in range(1000):
+        m = getrandbits(64)
+        await compress(dut, m)
+        h.compression(m)
+        assert_state(dut, h.state())
+
+    result = h.finalization()
+    await finalize(dut)
+    assert_result(dut, result)
+    await Timer(10, 'ns')
+    
