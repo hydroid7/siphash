@@ -6,6 +6,3 @@ sources:
   - siphash/hdl/counter.v
   - siphash/hdl/sip_round.v
   - siphash/hdl/siphash.v
-
-workspace:
-  checkout_dir: deps
