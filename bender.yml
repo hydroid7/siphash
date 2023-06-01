@@ -1,0 +1,11 @@
+package:
+  name: siphash
+  authors: ["Lorant Meszlenyi <meszlenyilorant@gmail.com>"]
+sources:
+  # Individual source files are simple string entries:
+  - siphash/hdl/counter.v
+  - siphash/hdl/sip_round.v
+  - siphash/hdl/siphash.v
+
+workspace:
+  checkout_dir: deps
